@@ -81,7 +81,12 @@
                     </div>
                 </div>
 
-                <input type="search" class="form-control mt-3" name="search" placeholder="Type to search..." />
+                <div class="col-6 offset-6">
+                    <form method="GET" action="{{ route("search.people") }}"  class="d-flex mt-5" role="search">
+                        <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search" value="{{ isset($search) ? $search : '' }}">
+                        <button class="btn btn-success" type="submit">Search</button>
+                    </form>
+                </div>
 
                 <table class="table table-hover mt-5">
                     <thead>

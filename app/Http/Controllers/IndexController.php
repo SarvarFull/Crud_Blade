@@ -36,10 +36,9 @@ class IndexController extends Controller
 
         $notification = array(
             'message' => 'People Added !',
-            'alert-type' => 'success'
         );
 
-        return redirect()->route('main.page')->with($notification);
+        return redirect()->route('main.page')->with("success", $notification);
     }
 
     public function viewPeople(Request $request, $id)
@@ -83,10 +82,9 @@ class IndexController extends Controller
 
         $notification = array(
             'message' => 'People Updated !',
-            'alert-type' => 'warning'
         );
 
-        return redirect()->back()->with($notification);
+        return redirect()->route("main.page")->with("success", $notification);
     }
 
     public function deletePeople($id)
@@ -97,9 +95,21 @@ class IndexController extends Controller
 
         $notification = array(
             'message' => 'People Deleted !',
-            'alert-type' => 'error'
         );
 
-        return redirect()->back()->with($notification);
+        return redirect()->back()->with("error", $notification);
+    }
+
+    public function searchPeople(Request $request)
+    {
+        $search = $request->search;
+
+        $peoples = People::where("fullname", "LIKE", "%" . $search . "%")
+            ->orWhere("email", "LIKE", "%" . $search . "%")
+            ->orWhere("phone", "LIKE", "%" . $search . "%")
+            ->orWhere("address", "LIKE", "%" . $search . "%")
+            ->orWhere("about", "LIKE", "%" . $search . "%")->get();
+
+        return view("crud.main", compact("search", "peoples"));
     }
 }
